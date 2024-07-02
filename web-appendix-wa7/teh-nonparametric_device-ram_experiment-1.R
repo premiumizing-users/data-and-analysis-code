@@ -11,7 +11,7 @@ library(dplyr)
 setwd("NA")
 
 # load dataset
-data_1 <- read.csv("Experiment 1 - Low-Mid-High/experiment1_data_prepped.csv", header=TRUE, sep=",")
+data_1 <- read.csv("experiment-1/experiment1_data_prepped.csv", header=TRUE, sep=",")
 data_1$X <- NULL
 data_1$unique_id <- as.factor(data_1$unique_id)
 
