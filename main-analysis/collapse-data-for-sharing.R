@@ -98,7 +98,7 @@ write.csv(collapsed_data_3b,"Experiment 3 - Personalized-Skimming/Experiment 3b/
 ### for experiment 3a
 
 # read in data
-setwd("/Users/jr/Dropbox/Research/A_Promotion Targeting CB Freemium/Data/Clean data rewrite 2024/Experiment 3 - Personalized-Skimming/Experiment 3a")
+setwd("/experiment-3/experiment-3a")
 for (d in c(2, 4, 6, 8, 10, 12)){
   eval(parse(text=paste0("d",d,"_data <- read.csv(file = 'price-path-experimentation_d",d,".csv')")))
 }
