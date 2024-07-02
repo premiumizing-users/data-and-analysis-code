@@ -9,16 +9,16 @@ registerDoParallel(cores = 4)
 setwd("NA")
 
 # load datasets
-data_1 <- read.csv("Experiment 1 - Low-Mid-High/experiment1_data_prepped.csv", header=TRUE, sep=",")
+data_1 <- read.csv("experiment-1/experiment1_data_prepped.csv", header=TRUE, sep=",")
 data_1$X <- NULL
 data_1$X.1 <- NULL
 data_1$unique_id <- as.factor(data_1$unique_id)
 
-data_2 <- read.csv("Experiment 2 - Simple-Skimming/experiment2_data_prepped.csv", header=TRUE, sep=",")
+data_2 <- read.csv("experiment-2/experiment2_data_prepped.csv", header=TRUE, sep=",")
 data_2$X <- NULL
 data_2$unique_id <- as.factor(data_2$unique_id)
 
-data_3b <- read.csv("Experiment 3 - Personalized-Skimming/Experiment 3b/experiment3b_data_prepped.csv", header=TRUE, sep=",")
+data_3b <- read.csv("experiment-3/experiment-3b/experiment3b_data_prepped.csv", header=TRUE, sep=",")
 data_3b$X <- NULL
 data_3b$unique_id <- as.factor(data_3b$unique_id)
 
