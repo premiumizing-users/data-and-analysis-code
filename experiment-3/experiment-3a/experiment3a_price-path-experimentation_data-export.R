@@ -39,8 +39,8 @@ d8_experiment_data <- sql_query_execute8
 d10_experiment_data <- sql_query_execute10
 d12_experiment_data <- sql_query_execute12
 
-# store data as csvs for documentation
-setwd("/Users/local-dir")
+# export data as csvs
+setwd("NA")
 for (d in c(2, 4, 6, 8, 10, 12)){
   eval(parse(text=paste0("write.csv(d",d,"_experiment_data, file = 'price-path-experimentation_d",d,".csv')")))
 }
