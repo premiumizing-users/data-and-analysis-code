@@ -7,9 +7,7 @@ library(mgcv)
 library(ggplot2)
 
 # load dataset
-data_3b <- read.csv("Experiment 3 - Personalized-Skimming/Experiment 3b/experiment3b_data_prepped.csv", header=TRUE, sep=",")
-data_3b$X <- NULL
-data_3b$unique_id <- as.factor(data_3b$unique_id)
+data_3b <- #user-level dataset with detailed country and GDP per capita information
 
 # create needed treatment dummy
 data_3b$pers_skim <- 0
