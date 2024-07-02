@@ -6,7 +6,7 @@ library(ggplot2)
 library(dplyr)
 
 # set working directory
-setwd("/Users/jr/Dropbox/Research/A_Promotion Targeting CB Freemium/Data/Clean data rewrite 2024")
+setwd("NA")
 
 # load dataset
 data_1 <- read.csv("Experiment 1 - Low-Mid-High/experiment1_data_prepped.csv", header=TRUE, sep=",")
