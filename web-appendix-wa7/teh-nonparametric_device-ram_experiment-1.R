@@ -1,3 +1,5 @@
+##### non-parametric analysis of heterogeneous treatment effects in device memory for experiment 1 #####
+
 # install and load necessary packages
 install.packages("mgcv")
 install.packages("ggplot2")
