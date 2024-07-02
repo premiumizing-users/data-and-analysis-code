@@ -1,4 +1,5 @@
-##### This analysis was run by the industry partner at our request #####
+##### non-parametric analysis of heterogeneous treatment effects in gdp per capita for experiment 3b #####
+##### this analysis was run by the industry partner at our request #####
 
 # install and load necessary packages
 install.packages("mgcv")
