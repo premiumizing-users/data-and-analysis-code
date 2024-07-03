@@ -1,4 +1,4 @@
-# an-exploration-of-price-skimming-for-freemium-content-sales
+# premiumizing-users
 
 This repository contains code and data (as can be made available) for the research project "'Premiumizing Users': An Exploration of Price Skimming for Freemium Content Sales". The data for this research project are subject to a non-disclosure agreement with the industry partner as it contains sensitive customer and company information. Please note that identifying information such as game, company, and product names were removed from the code displayed here for confidentiality reasons.
 
