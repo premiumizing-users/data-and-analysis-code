@@ -1,21 +1,23 @@
 # install and load the dplyr package if not already installed
-#install.packages("dplyr")
+install.packages("dplyr")
+install.packages("tidyverse")
 library(dplyr)
+library(tidyverse)
 
 # set working directory
 setwd("NA")
 
 # load datasets
-data_1 <- read.csv("experiment-1/experiment1_data_prepped.csv", header=TRUE, sep=",")
+data_1 <- read.csv("Experiment 1 - Low-Mid-High/experiment1_data_prepped.csv", header=TRUE, sep=",")
 data_1$X <- NULL
 data_1$X.1 <- NULL
 data_1$unique_id <- as.factor(data_1$unique_id)
 
-data_2 <- read.csv("experiment-2/experiment2_data_prepped.csv", header=TRUE, sep=",")
+data_2 <- read.csv("Experiment 2 - Simple-Skimming/experiment2_data_prepped.csv", header=TRUE, sep=",")
 data_2$X <- NULL
 data_2$unique_id <- as.factor(data_2$unique_id)
 
-data_3b <- read.csv("experiment-3/experiment-3b/experiment3b_data_prepped.csv", header=TRUE, sep=",")
+data_3b <- read.csv("Experiment 3 - Personalized-Skimming/Experiment 3b/experiment3b_data_prepped.csv", header=TRUE, sep=",")
 data_3b$X <- NULL
 data_3b$unique_id <- as.factor(data_3b$unique_id)
 
@@ -34,15 +36,18 @@ excluded_columns <- c("unique_id", "join_date", "join_ts",
                       "country_tierCountry.tier.4", "country_tierCountry.tier.5", 
                       "country_tierCountry.tier.1")
 
-# define the variables to be collapsed
+# check column names to ensure variables_to_collapse is correctly identified
 variables_to_collapse <- setdiff(names(data_1), c(grouping_columns, excluded_columns))
+print(variables_to_collapse)
 
-# collapse dataset by Category retaining mean and standard deviation
+# collapse dataset by category retaining mean and standard deviation
 collapsed_data_1 <- data_1 %>%
   group_by(across(all_of(grouping_columns))) %>%
   summarise(
     unique_id_count = n(),
-    across(all_of(variables_to_collapse), list(mean = ~ mean(.x, na.rm = TRUE), sd = ~ sd(.x, na.rm = TRUE)), .names = "{.col}_{.fn}")
+    across(all_of(variables_to_collapse), 
+           list(mean = ~ mean(.x, na.rm = TRUE), sd = ~ sd(.x, na.rm = TRUE)), 
+           .names = "{.col}_{.fn}")
   ) %>%
   ungroup()
 
@@ -98,7 +103,7 @@ write.csv(collapsed_data_3b,"Experiment 3 - Personalized-Skimming/Experiment 3b/
 ### for experiment 3a
 
 # read in data
-setwd("/experiment-3/experiment-3a")
+setwd("NA/Experiment 3 - Personalized-Skimming/Experiment 3a")
 for (d in c(2, 4, 6, 8, 10, 12)){
   eval(parse(text=paste0("d",d,"_data <- read.csv(file = 'price-path-experimentation_d",d,".csv')")))
 }
