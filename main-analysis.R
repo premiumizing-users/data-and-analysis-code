@@ -9,184 +9,152 @@ registerDoParallel(cores = 4)
 setwd("NA")
 
 # load datasets
-data_1 <- read.csv("experiment-1/experiment1_data_prepped.csv", header=TRUE, sep=",")
+data_1 <- read.csv("Experiment 1 - Low-Mid-High/experiment1_data_prepped.csv", header=TRUE, sep=",")
 data_1$X <- NULL
 data_1$X.1 <- NULL
 data_1$unique_id <- as.factor(data_1$unique_id)
 
-data_2 <- read.csv("experiment-2/experiment2_data_prepped.csv", header=TRUE, sep=",")
+data_2 <- read.csv("Experiment 2 - Simple-Skimming/experiment2_data_prepped.csv", header=TRUE, sep=",")
 data_2$X <- NULL
 data_2$unique_id <- as.factor(data_2$unique_id)
 
-data_3b <- read.csv("experiment-3/experiment-3b/experiment3b_data_prepped.csv", header=TRUE, sep=",")
+data_3b <- read.csv("Experiment 3 - Personalized-Skimming/Experiment 3b/experiment3b_data_prepped.csv", header=TRUE, sep=",")
 data_3b$X <- NULL
 data_3b$unique_id <- as.factor(data_3b$unique_id)
 
 
 #################################################################
-##### randomization checks using key background variables #####
+##### experiment 1: treatment effects #####
 #################################################################
-
-### for experiment 1
-
-# descriptive stats with confidence intervals
-summarySE(data_1, "device_ram", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "device_tierAndroid.tier.1", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "device_tierAndroid.tier.2", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "device_tierAndroid.tier.3", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "device_tierAndroid.tier.4", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "device_tierAndroid.tier.5", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "country_tierCountry.tier.1", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "country_tierCountry.tier.2", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "country_tierCountry.tier.3", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "country_tierCountry.tier.4", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data_1, "country_tierCountry.tier.5", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
 
 # set $4.99 starter pack condition as reference
 data_1$test_bucket <- factor(data_1$test_bucket)
 data_1$test_bucket <- relevel(data_1$test_bucket, ref = "offer_on5")
 
-# run models with different outcomes
-random_ram <- lm(device_ram ~ test_bucket, data=data_1)
-summary(random_ram)
+### regressions to quantify treatment effects for experiment 1
 
-random_device1 <- lm(data_1$"device_tierAndroid.tier.1" ~ data_1$test_bucket, data=data_1)
-summary(random_device1)
+# 1-day measurement window
+e1_d1_offer_conversion <- lm(d1_offer_conversion ~ test_bucket,
+                          data=data_1)
+summary(e1_d1_offer_conversion)
 
-random_device2 <- lm(data_1$"device_tierAndroid.tier.2" ~ data_1$test_bucket, data=data_1)
-summary(random_device2)
+e1_d1_offer_revenue <- lm(d1_offer_revenue ~ test_bucket,
+                       data=data_1)
+summary(e1_d1_offer_revenue)
 
-random_device3 <- lm(data_1$"device_tierAndroid.tier.3" ~ data_1$test_bucket, data=data_1)
-summary(random_device3)
+e1_d1_conversion <- lm(d1_conversion ~ test_bucket,
+                    data=data_1)
+summary(e1_d1_conversion)
 
-random_device4 <- lm(data_1$"device_tierAndroid.tier.4" ~ data_1$test_bucket, data=data_1)
-summary(random_device4)
+e1_d1_revenue <- lm(d1_revenue ~ test_bucket,
+                 data=data_1)
+summary(e1_d1_revenue)
 
-random_device5 <- lm(data_1$"device_tierAndroid.tier.5" ~ data_1$test_bucket, data=data_1)
-summary(random_device5)
+e1_d1_rev_denoised <- lm(d1_rev_denoised ~ test_bucket,
+                      data=data_1)
+summary(e1_d1_rev_denoised)
 
-random_country1 <- lm(data_1$"country_tierCountry.tier.1" ~ data_1$test_bucket, data=data_1)
-summary(random_country1)
+e1_d1_repeat_purchases <- lm(d1_repeat_purchases ~ test_bucket,
+                          data=data_1)
+summary(e1_d1_repeat_purchases)
 
-random_country2 <- lm(data_1$"country_tierCountry.tier.2" ~ data_1$test_bucket, data=data_1)
-summary(random_country2)
+e1_d1_minutes <- lm(d1_minutes ~ test_bucket,
+                 data=data_1)
+summary(e1_d1_minutes)
 
-random_country3 <- lm(data_1$"country_tierCountry.tier.3" ~ data_1$test_bucket, data=data_1)
-summary(random_country3)
+e1_d1_rounds_played <- lm(d1_rounds_played ~ test_bucket,
+                       data=data_1)
+summary(e1_d1_rounds_played)
 
-random_country4 <- lm(data_1$"country_tierCountry.tier.4" ~ data_1$test_bucket, data=data_1)
-summary(random_country4)
+e1_d1_retention <- lm(d1_retention ~ test_bucket,
+                   data=data_1)
+summary(e1_d1_retention)
 
-random_country5 <- lm(data_1$"country_tierCountry.tier.5" ~ data_1$test_bucket, data=data_1)
-summary(random_country5)
+e1_d1_ad_views <- lm(d1_ad_views ~ test_bucket,
+                  data=data_1)
+summary(e1_d1_ad_views)
 
+# 7-day measurement window
+e1_d7_offer_conversion <- lm(d7_offer_conversion ~ test_bucket,
+                          data=data_1)
+summary(e1_d7_offer_conversion)
 
-### for experiment 2
+e1_d7_offer_revenue <- lm(d7_offer_revenue ~ test_bucket,
+                       data=data_1)
+summary(e1_d7_offer_revenue)
 
-# set $4.99 starter pack condition as reference
-data_2$test_bucket <- factor(data_2$test_bucket)
-data_2$test_bucket <- relevel(data_2$test_bucket, ref = "Hold-out")
+e1_d7_conversion <- lm(d7_conversion ~ test_bucket,
+                    data=data_1)
+summary(e1_d7_conversion)
 
-# run models with different outcomes
-random_country1 <- lm(data_2$"country_tierCountry.tier.1" ~ data_2$test_bucket, data=data_2)
-summary(random_country1)
+e1_d7_revenue <- lm(d7_revenue ~ test_bucket,
+                 data=data_1)
+summary(e1_d7_revenue)
 
-random_country2 <- lm(data_2$"country_tierCountry.tier.2" ~ data_2$test_bucket, data=data_2)
-summary(random_country2)
+e1_d7_rev_denoised <- lm(d7_rev_denoised ~ test_bucket,
+                      data=data_1)
+summary(e1_d7_rev_denoised)
 
-random_country3 <- lm(data_2$"country_tierCountry.tier.3" ~ data_2$test_bucket, data=data_2)
-summary(random_country3)
+e1_d7_repeat_purchases <- lm(d7_repeat_purchases ~ test_bucket,
+                          data=data_1)
+summary(e1_d7_repeat_purchases)
 
-random_country4 <- lm(data_2$"country_tierCountry.tier.4" ~ data_2$test_bucket, data=data_2)
-summary(random_country4)
+e1_d7_minutes <- lm(d7_minutes ~ test_bucket,
+                 data=data_1)
+summary(e1_d7_minutes)
 
+e1_d7_rounds_played <- lm(d7_rounds_played ~ test_bucket,
+                       data=data_1)
+summary(e1_d7_rounds_played)
 
-### for experiment 3b
+e1_d7_retention <- lm(d7_retention ~ test_bucket,
+                   data=data_1)
+summary(e1_d7_retention)
 
-# set $4.99 starter pack condition as reference
-data_3b$test_bucket <- factor(data_3b$test_bucket)
-data_3b$test_bucket <- relevel(data_3b$test_bucket, ref = "Hold-out")
+e1_d7_ad_views <- lm(d7_ad_views ~ test_bucket,
+                  data=data_1)
+summary(e1_d7_ad_views)
 
-# run models with different outcomes
+# 30-day measurement window
+e1_d30_offer_conversion <- lm(d30_offer_conversion ~ test_bucket,
+                          data=data_1)
+summary(e1_d30_offer_conversion)
 
-random_device1 <- lm(data_3b$"device_tierAndroid.tier.1" ~ data_3b$test_bucket, data=data_3b)
-summary(random_device1)
+e1_d30_offer_revenue <- lm(d30_offer_revenue ~ test_bucket,
+                       data=data_1)
+summary(e1_d30_offer_revenue)
 
-random_device2 <- lm(data_3b$"device_tierAndroid.tier.2" ~ data_3b$test_bucket, data=data_3b)
-summary(random_device2)
+e1_d30_conversion <- lm(d30_conversion ~ test_bucket,
+                    data=data_1)
+summary(e1_d30_conversion)
 
-random_device3 <- lm(data_3b$"device_tierAndroid.tier.3" ~ data_3b$test_bucket, data=data_3b)
-summary(random_device3)
+e1_d30_revenue <- lm(d30_revenue ~ test_bucket,
+                 data=data_1)
+summary(e1_d30_revenue)
 
-random_device4 <- lm(data_3b$"device_tierAndroid.tier.4" ~ data_3b$test_bucket, data=data_3b)
-summary(random_device4)
+e1_d30_rev_denoised <- lm(d30_rev_denoised ~ test_bucket,
+                      data=data_1)
+summary(e1_d30_rev_denoised)
 
-random_device5 <- lm(data_3b$"device_tierAndroid.tier.5" ~ data_3b$test_bucket, data=data_3b)
-summary(random_device5)
+e1_d30_repeat_purchases <- lm(d30_repeat_purchases ~ test_bucket,
+                          data=data_1)
+summary(e1_d30_repeat_purchases)
 
-random_country1 <- lm(data_3b$"country_tierCountry.tier.1" ~ data_3b$test_bucket, data=data_3b)
-summary(random_country1)
+e1_d30_minutes <- lm(d30_minutes ~ test_bucket,
+                 data=data_1)
+summary(e1_d30_minutes)
 
-random_country2 <- lm(data_3b$"country_tierCountry.tier.2" ~ data_3b$test_bucket, data=data_3b)
-summary(random_country2)
+e1_d30_rounds_played <- lm(d30_rounds_played ~ test_bucket,
+                       data=data_1)
+summary(e1_d30_rounds_played)
 
-random_country3 <- lm(data_3b$"country_tierCountry.tier.3" ~ data_3b$test_bucket, data=data_3b)
-summary(random_country3)
+e1_d30_retention <- lm(d30_retention ~ test_bucket,
+                   data=data_1)
+summary(e1_d30_retention)
 
-random_country4 <- lm(data_3b$"country_tierCountry.tier.4" ~ data_3b$test_bucket, data=data_3b)
-summary(random_country4)
-
-
-
-#################################################################
-##### intent-to-treat values for outcome variables by condition #####
-#################################################################
-
-# set dataset to generate descriptives for
-data <- data_1 # out of data_1, data_2, data_3b
-
-# one-day measurement window
-
-summarySE(data, "d1_offer_conversion", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_offer_revenue", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_conversion", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_revenue", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_rev_denoised", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_repeat_purchases", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_minutes", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_sessions", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_rounds_played", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_retention", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d1_ad_views", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-
-# one-week measurement window
-
-summarySE(data, "d7_offer_conversion", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_offer_revenue", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_conversion", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_revenue", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_rev_denoised", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_repeat_purchases", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_minutes", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_sessions", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_rounds_played", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_retention", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d7_ad_views", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-
-# one-month measurement window
-
-summarySE(data, "d30_offer_conversion", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_offer_revenue", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_conversion", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_revenue", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_rev_denoised", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_repeat_purchases", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_minutes", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_sessions", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_rounds_played", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_retention", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-summarySE(data, "d30_ad_views", groupvars = c("test_bucket"), na.rm = FALSE, conf.interval = 0.95, .drop = TRUE)
-
+e1_d30_ad_views <- lm(d30_ad_views ~ test_bucket,
+                  data=data_1)
+summary(e1_d30_ad_views)
 
 
 #################################################################
@@ -252,7 +220,6 @@ teh_device_country_denoised <- lm(d30_rev_denoised ~ test_bucket * device_tier *
 summary(teh_device_country_denoised)
 
 
-
 #################################################################
 ##### exp. 1: treatment effects along the distribution (qtes) #####
 #################################################################
@@ -269,65 +236,46 @@ quantile(filter(data_1,data_1$test_bucket=="offer_on3" | data_1$test_bucket=="of
 quantile(filter(data_1,data_1$test_bucket=="offer_on30" | data_1$test_bucket=="offer_on5")$d30_revenue, probs = .995)
 
 # get qte for comparison of $2.99 to $4.99 starter pack condition
-qte_3vs5_1 <- ci.qtet(d30_revenue ~ treat_offer3,
-                      data=filter(data_1,data_1$test_bucket=="offer_on3" | data_1$test_bucket=="offer_on5"),
-                      probs=seq(.97,.9995,.0005), 
-                      se=T,
-                      iters=10)
-summary(qte_3vs5_1)
-plot_3vs5_1 <- ggqte(qte_3vs5_1, main = "97th ($0) to 99.95th (~$750) quantile") + xlim(.97,.9995) + ylim(-500,300) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
-
-
-qte_3vs5_2 <- ci.qtet(d30_revenue ~ treat_offer3,
+qte_3vs5 <- ci.qtet(d30_revenue ~ treat_offer3,
                       data=filter(data_1,data_1$test_bucket=="offer_on3" | data_1$test_bucket=="offer_on5"),
                       probs=seq(.97,.995,.0005), 
                       se=T,
                       iters=10)
-summary(qte_3vs5_2)
-plot_3vs5_2 <- ggqte(qte_3vs5_2, main = "97th ($0) to 99.5th (~$80) quantile") + xlim(.97,.995) + ylim(-20,30) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
+summary(qte_3vs5)
 
+plot_3vs5 <- ggqte(qte_3vs5, main = "$2.99 compared to $4.99 starter pack") + xlim(.97,.995) + ylim(-25,10)
 
-qte_3vs5_3 <- ci.qtet(d30_revenue ~ treat_offer3,
-                      data=filter(data_1,data_1$test_bucket=="offer_on3" | data_1$test_bucket=="offer_on5"),
-                      probs=seq(.97,.985,.0005), 
-                      se=T,
-                      iters=10)
-summary(qte_3vs5_3)
-plot_3vs5_3 <- ggqte(qte_3vs5_3, main = "97th ($0) to 98.5th (~$9) quantile") + xlim(.97,.985) + ylim(-10,7) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
-
+plot_3vs5_2 <- plot_3vs5 + 
+  geom_hline(yintercept = c(-20, -10, 10, 20), linetype = "dotted", color = "black") +
+  labs(title = "$2.99 compared to $4.99 starter pack") +
+  ylim(-25,25) +
+  ylab("QTE in one-month revenue in $") +
+  xlab("") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
 
 # get qte for comparison of $29.99 to $4.99 starter pack condition
-qte_30vs5_1 <- ci.qtet(d30_revenue ~ treat_offer30,
-                       data=filter(data_1,data_1$test_bucket=="offer_on30" | data_1$test_bucket=="offer_on5"),
-                       probs=seq(.97,.9995,.0005), 
-                       se=T,
-                       iters=10)
-summary(qte_30vs5_1)
-plot_30vs5_1 <- ggqte(qte_30vs5_1, main = "97th ($0) to 99.95th (~$700) quantile") + xlim(.97,.9995) + ylim(-500,300) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
-
-
-qte_30vs5_2 <- ci.qtet(d30_revenue ~ treat_offer30,
+qte_30vs5 <- ci.qtet(d30_revenue ~ treat_offer30,
                        data=filter(data_1,data_1$test_bucket=="offer_on30" | data_1$test_bucket=="offer_on5"),
                        probs=seq(.97,.995,.0005), 
                        se=T,
                        iters=10)
-summary(qte_30vs5_2)
-plot_30vs5_2 <- ggqte(qte_30vs5_2, main = "97th ($0) to 99.5th (~$85) quantile") + xlim(.97,.995) + ylim(-20,30) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
+summary(qte_30vs5)
 
+plot_30vs5 <- ggqte(qte_30vs5, main = "$29.99 compared to $4.99 starter pack") + xlim(.97,.995) + ylim(-10,25)
 
-qte_30vs5_3 <- ci.qtet(d30_revenue ~ treat_offer30,
-                       data=filter(data_1,data_1$test_bucket=="offer_on30" | data_1$test_bucket=="offer_on5"),
-                       probs=seq(.97,.985,.0005), 
-                       se=T,
-                       iters=10)
-summary(qte_30vs5_3)
-plot_30vs5_3 <- ggqte(qte_30vs5_3, main = "97th ($0) to 98.5th (~$10) quantile") + xlim(.97,.985) + ylim(-10,7) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
+plot_30vs5_2 <- plot_30vs5 + 
+  geom_hline(yintercept = c(-20, -10, 10, 20), linetype = "dotted", color = "black") +
+  labs(title = "$29.99 compared to $4.99 starter pack") +
+  ylim(-25,25) +
+  ylab("QTE in one-month revenue in $") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
 
 # arrange plots in one figure
-grid.arrange(plot_3vs5_1, plot_30vs5_1, plot_3vs5_2, plot_30vs5_2, plot_3vs5_3, plot_30vs5_3,
-             ncol = 2, nrow = 3,
-             top = ("$2.99 compared to $4.99                                                          $29.99 compared to $4.99"))
-
+grid.arrange(plot_3vs5_2, plot_30vs5_2,
+             ncol = 2, nrow = 1,
+             bottom = ("Quantiles of the one-month revenue distribution; 97.5th ($0) to 99.5th (~$80) quantile"))
 
 
 #################################################################
@@ -445,43 +393,28 @@ data_3b$pers_skim <- 0
 data_3b$pers_skim[data_3b$test_bucket=="Personalized"] <- 1
 
 # check values of quantiles in the respective joint distributions
-quantile(data_3b$d30_revenue, probs = .979)
+quantile(data_3b$d30_revenue, probs = .978)
 quantile(data_3b$d30_revenue, probs = .983)
-quantile(data_3b$d30_revenue, probs = .99)
-quantile(data_3b$d30_revenue, probs = .999)
+quantile(data_3b$d30_revenue, probs = .988)
+quantile(data_3b$d30_revenue, probs = .992)
 
-# get qte for comparison of $2.99 to $4.99 starter pack condition
-qte_persvsflat_1 <- ci.qtet(d30_revenue ~ pers_skim,
+# get qte for comparison of the personalized dynamics to the $4.99 starter pack condition
+qte_persvsflat <- ci.qtet(d30_revenue ~ pers_skim,
                       data=data_3b,
-                      probs=seq(.977,.999,.0005), 
+                      probs=seq(.975,.995,.0005), 
                       se=T,
-                      iters=30)
-summary(qte_persvsflat_1)
-plotpersvsflat_1 <- ggqte(qte_persvsflat_1, main = "97th ($0) to 99.9th (~$430) quantile") + xlim(.977,.998) + ylim(-70,100) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
+                      iters=50)
+summary(qte_persvsflat)
 
-qte_persvsflat_2 <- ci.qtet(d30_revenue ~ pers_skim,
-                            data=data_3b,
-                            probs=seq(.977,.995,.0005), 
-                            se=T,
-                            iters=30)
-summary(qte_persvsflat_2)
-plotpersvsflat_2 <- ggqte(qte_persvsflat_2, main = "97th ($0) to 99.5th (~$75) quantile") + xlim(.977,.995) + ylim(-20,40) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
+plotpersvsflat <- ggqte(qte_persvsflat) + xlim(.975,.995) + ylim(-20,40) + xlab("Quantiles of the one-month revenue distribution; 97.5th ($0) to 99.5th (~$80) quantile")
 
-qte_persvsflat_3 <- ci.qtet(d30_revenue ~ pers_skim,
-                            data=data_3b,
-                            probs=seq(.977,.983,.0005), 
-                            se=T,
-                            iters=30)
-summary(qte_persvsflat_3)
-plotpersvsflat_3 <- ggqte(qte_persvsflat_3, main = "97th ($0) to 98.3rd (~$6) quantile") + xlim(.977,.983) + ylim(-5,10) + xlab("Quantiles of one-month revenue distribution") + ylab("QTE in one-month revenue in $")
-
-# arrange plots in one figure
-grid.arrange(plotpersvsflat_1, plotpersvsflat_2, plotpersvsflat_3,
-             ncol = 1, nrow = 3,
-             top = ("Quantile treatment effects of personalized skimming versus $4.99 flat-price"))
-grid.arrange(plotpersvsflat_1, plotpersvsflat_2, plotpersvsflat_3,
-             ncol = 3, nrow = 1,
-             top = ("Quantile treatment effects of personalized skimming versus $4.99 flat-price"))
+plotpersvsflat_2 <- plotpersvsflat + 
+  geom_hline(yintercept = c(-20, -10, 10, 20, 30, 40), linetype = "dotted", color = "black") +
+  labs(title = "Personalized dynamic compared to $4.99 flat-price strategy") +
+  ylim(-10,35) +
+  ylab("QTE in one-month revenue in $") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 12))
 
 
 #################################################################
